@@ -3,9 +3,13 @@ from datetime import datetime
 
 from battery.nubbin_battery import NubbinBattery
 from battery.spindler_battery import SpindlerBattery
+
 from engine.capulet_engine import CapuletEngine
 from engine.sternman_engine import SternmanEngine
 from engine.willoughby_engine import WilloughbyEngine
+
+from tire.carrigan_tire import CarriganTire
+from tire.octoprime_tire import OctoprimeTire
 
 class TestNubbinBattery(unittest.TestCase):
     def test_needs_service(self):
@@ -88,3 +92,36 @@ class TestWillougbyEngine(unittest.TestCase):
         engine = WilloughbyEngine(current_mileage, last_service_mileage)
 
         self.assertFalse(engine.engine_should_be_serviced())
+
+class TestCariganTire(unittest.TestCase):
+    def test_need_service(self):
+        wear_sensors = [0.9, 0.8, 0.6, 1]
+
+        tire = CarriganTire(wear_sensors)
+
+        self.assertTrue(tire.needs_service())
+    
+    def test_does_not_need_service(self):
+        wear_sensors = [0.5, 0.8, 0.2, 0.3]
+
+        tire = CarriganTire(wear_sensors)
+
+        self.assertFalse(tire.needs_service())
+    
+class TestOctoprimeTire(unittest.TestCase):
+    def test_needs_service(self):
+        wear_sensors = [0.9, 0.8, 0.6, 1]
+
+        tire = OctoprimeTire(wear_sensors)
+
+        self.assertTrue(tire.needs_service())
+
+    def test_does_not_need_service(self):
+        wear_sensors = [0.5, 0.8, 0.2, 0.3]
+
+        tire = OctoprimeTire(wear_sensors)
+
+        self.assertFalse(tire.needs_service())
+
+if __name__ == '__main__':
+    unittest.main()
